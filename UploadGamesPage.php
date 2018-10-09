@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Matrix Admin</title>
+<title>YoGames</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="stylesheet" href="css/bootstrap.min.css" />
@@ -17,7 +17,7 @@
 
 <!--Header-part-->
 <div id="header">
-  <h1><a href="dashboard.html">Matrix Admin</a></h1>
+  <h1><a href="dashboard.html">YoGames</a></h1>
 </div>
 <!--close-Header-part--> 
 
@@ -58,10 +58,10 @@
 
 <!--sidebar-menu-->
 
-<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-signal"></i> Charts &amp; graphs</a>
+<div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-signal"></i> upload games page</a>
   <ul>
     <li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-    <li class="active"> <a href="UploadGamesPage.php"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
+    <li class="active"> <a href="UploadGamesPage.php"><i class="icon icon-signal"></i> <span>upload games page</span></a> </li>
     <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>Widgets</span></a> </li>
     <li><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>
     <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
@@ -112,7 +112,7 @@
 
 
 <div id="content">
-  <div id="breadcrumb"><a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Charts &amp; graphs</a></div>
+  <div id="breadcrumb"><a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">upload games page</a></div>
 
   <div  class="upload-game-div" style="text-align: center" id="content-header">
 
@@ -124,28 +124,33 @@
         <div class="input-box">
 
     <input   type="text" id="game-name" name="game_name" placeholder="Game Name">
-<br>
-        <input type="text" name="game_image" placeholder="Game Image">
+           <br>
+          <input type="text" name="game_image" placeholder="Game Image">
           <output  name="id " ></output>
-        <br>
+         <br>
           <textarea id=game-tags placeholder="Tags"></textarea>
-      <br>
+         <br>
 
 
-        <input type="text" id="classification"  placeholder="Classification">
+         <input type="text" id="classification"  placeholder="Classification">
           <br>
+            <br>
 
-          <div class="upload-btn-wrapper">
-            <button class="btn">Upload  Iamge </button>
-            <input  type="file" name="myfile" />
-            <div class="progress progress-mini progress-priamry active progress-striped">
-              <div  style="width: 90%;" class="bar"></div>
+            <div class="row"
+            <label  style="margin-left:110px" class="control-label">Upload Image</label>
+            <input  type="file" name="myfile">
             </div>
 
+</div>
           </div>
-          <br>
-          <button type="button" class="btn btn-outline-secondary">    test</button>
-          <button  col-12 type="button" id="upload-submit" class="btn btn-outline-secondary">upload game</button>
+    <div class="container"
+            <div class="buttons">
+          <button  style="background-color: darkorange" type="button" class="btn btn-outline-secondary"> test</button>
+            <button type="submit" class="btn btn-success">Upload</button>
+
+            <button type="submit" class="btn btn-primary">Reset</button>
+            </div>
+</div>
 
       </div>
 
@@ -157,6 +162,7 @@
 
           <script>
               $(document).ready(function () {
+
 
                   $("#upload-submit").click(function () {
                       var game_name = $("#game-name").val();
