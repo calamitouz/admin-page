@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -60,7 +61,7 @@
 <div id="sidebar"> <a href="#" class="visible-phone"><i class="icon icon-signal"></i> Charts &amp; graphs</a>
   <ul>
     <li><a href="index.html"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
-    <li class="active"> <a href="UploadGamesPage.html"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
+    <li class="active"> <a href="UploadGamesPage.php"><i class="icon icon-signal"></i> <span>Charts &amp; graphs</span></a> </li>
     <li> <a href="widgets.html"><i class="icon icon-inbox"></i> <span>Widgets</span></a> </li>
     <li><a href="tables.html"><i class="icon icon-th"></i> <span>Tables</span></a></li>
     <li><a href="grid.html"><i class="icon icon-fullscreen"></i> <span>Full width</span></a></li>
@@ -106,6 +107,10 @@
     </li>
   </ul>
 </div>
+
+
+
+
 <div id="content">
   <div id="breadcrumb"><a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="current">Charts &amp; graphs</a></div>
 
@@ -118,16 +123,16 @@
 
         <div class="input-box">
 
-    <input   type="text" name="game_name" placeholder="Game Name">
+    <input   type="text" id="game-name" name="game_name" placeholder="Game Name">
 <br>
         <input type="text" name="game_image" placeholder="Game Image">
           <output  name="id " ></output>
         <br>
-          <textarea placeholder="Tags"></textarea>
+          <textarea id=game-tags placeholder="Tags"></textarea>
       <br>
 
 
-        <input type="text"  placeholder="Classification">
+        <input type="text" id="classification"  placeholder="Classification">
           <br>
 
           <div class="upload-btn-wrapper">
@@ -140,7 +145,7 @@
           </div>
           <br>
           <button type="button" class="btn btn-outline-secondary">    test</button>
-          <button  col-12 type="button" class="btn btn-outline-secondary">upload game</button>
+          <button  col-12 type="button" id="upload-submit" class="btn btn-outline-secondary">upload game</button>
 
       </div>
 
@@ -148,5 +153,33 @@
 
 <!--Turning-series-chart-js-->
 <script src="js/matrix.dashboard.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+          <script>
+              $(document).ready(function () {
+
+                  $("#upload-submit").click(function () {
+                      var game_name = $("#game-name").val();
+                      var game_tags = $("#game-tags").val();
+                      var classification = $("#classification").val();
+                      $.ajax({
+                          url: "operations/upload_game.php",
+                          data: {game_name:game_name, game_tags:game_tags, classification:classification},
+                          type: "POST",
+                          success: function (data) {
+                              if(data === "done"){
+                                  alert("game uploaded");
+                              }else {
+                                  alert("upload error");
+                              }
+
+                          }
+                      });
+                  })
+
+
+              });
+
+          </script>
 </body>
 </html>
