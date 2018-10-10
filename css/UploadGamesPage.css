@@ -1,35 +1,21 @@
-.upload-game-div{
-margin-bottom: 50px;
-}
 
 
 .input-game{
-    margin-top: 60px;
-    margin-bottom: 30px;
-    padding: 30px;
+resize: none;
+width: 300px;
+}
+
+
+.upload-game-div{
+    width: 500px;
+
+    padding: 20px 0;
+    margin-top: 30px;
+    text-align: center;
     background: darkgray;
-    margin-left: 20%;
-    margin-right: 20%;
     opacity: 1;
-border-radius:5px ;
-}
-
-
-
-.upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-}
-
-
-
-.upload-btn-wrapper input[type=file] {
-    font-size: 100px;
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
+    border-radius:5px ;
+    color: white;
 }
 .buttons:hover{
 opacity: 0.7;
@@ -44,4 +30,9 @@ opacity: 0.7;
     padding: 10px ;
 
 
+}
+.input-form{
+ text-align: center;
+    width: 50px ;
+    height: 50px;
 }

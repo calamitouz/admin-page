@@ -1,6 +1,6 @@
 <?php
 
-$con = mysqli_connect('localhost', 'root', 'root', 'yogames');
+$con = mysqli_connect('localhost', 'root', '', 'yogames');
 
 
 $game_name = $_POST['game_name'];
