@@ -1,21 +1,27 @@
-<?php include '../includes/db.php';
-session_start();
+<?php
 
-if($_FILES['image']['name'] != ''){
+include "../includes/db.php";
+if($_FILES['image']['name'] != '') {
+echo "test";
+   $query = "SELECT * FROM games_list WHERE  id = (SELECT MAX(id)  FROM games_list)";
+   $result = mysqli_query($con, $query);
+   $row = mysqli_fetch_assoc($result);
+   $img_name = $row{"id"};
 
 
-    $username = $_SESSION['loginAccount'];
-    $test = explode("." , $_FILES['image']['name']);
-    $extension = strtolower(end($test));
-    $imageName = $_SESSION['loginAccount'] . '.' . $extension;
-    $location = "../users_profiles/" . $_SESSION['loginAccount'] . '/' . $imageName;
+   $test = explode(".", $_FILES['image']['name']);
+   $extension = strtolower(end($test));
 
-    $query = "UPDATE users " . "SET user_image = '$imageName' WHERE username = '$username'";
-    $result = mysqli_query($connection, $query);
+$imageName = $img_name . '.' . $extension;
+  $location = '../imges_games/'.$imageName;
 
-    $_SESSION['loginAccountImage'] = "users_profiles/" . $_SESSION['loginAccount'] . "/" . $imageName;
-    $newSrc = "users_profiles/" . $_SESSION['loginAccount'] . '/' . $imageName;
+    $query1 = "UPDATE games_list SET game_image = '$imageName' WHERE id = '$img_name'";
+    $result = mysqli_query($con, $query1);
+
+
+
 
     move_uploaded_file($_FILES['image']['tmp_name'], $location);
-    echo $newSrc;
+
+
 }

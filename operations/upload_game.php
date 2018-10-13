@@ -1,6 +1,6 @@
 <?php
 
-$con = mysqli_connect('localhost', 'root', '', 'yogames');
+include "../includes/db.php";
 
 
 $game_name = $_POST['game_name'];

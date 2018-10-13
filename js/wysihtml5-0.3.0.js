@@ -3331,7 +3331,7 @@ Base.prototype = {
 			var proto = {toSource: null};
 			// do the "toString" and other methods manually
 			var hidden = ["constructor", "toString", "valueOf"];
-			// if we are prototyping then include the constructor
+			// if we are prototyping then includes the constructor
 			var i = Base._prototyping ? 0 : 1;
 			while (key = hidden[i++]) {
 				if (source[key] != proto[key]) {
@@ -4853,7 +4853,7 @@ wysihtml5.dom.parse = (function() {
     }
     
     /**
-     * IE is the only browser who doesn't include the namespace in the
+     * IE is the only browser who doesn't includes the namespace in the
      * nodeName, that's why we have to prepend it by ourselves
      * scopeName is a proprietary IE feature
      * read more here http://msdn.microsoft.com/en-us/library/ms534388(v=vs.85).aspx

@@ -16,6 +16,34 @@
 <body>
 
 <?php
+//if (isset($_POST['upload'])) {
+//    $file = $_FILES['file'];
+//    $file_name = $_FILES['file']['name'];
+//    $file_tmapname = $_FILES['file']['tmp_name'];
+//    $file_size = $_FILES ['file']['size'];
+//    $file_error = $_FILES ['file']['error'];
+//    $file_type = $_FILES['file']['type'];
+//    $file_ext = explode('.',$file_name);
+//    $file_actext  = strtolower(end($file_ext));
+//    $allowed = array('jpg','png','jpeg');
+//
+//   if (in_array($file_actext,$allowed)){
+//        if ($file_error === 0){
+//            if ($file_size<300000){
+//                $file_newName = uniqid('',true).".".$file_actext;
+//                $file_location = 'imges_games/'.$file_newName;
+             //   move_uploaded_file($file_tmapname,$file_location);
+//                header("LOCATION:UploadGamesPage.php?uploadsuccess");
+//            }else{
+//                echo "image size is too pig ";
+//
+//            }
+//        }else "There was  an error in uploading your image ";
+//
+//    }else{
+//        echo "you can not upload image of this type";
+//    }
+//}
 include"dash-menu.php"
 ?>
 
@@ -28,17 +56,26 @@ include"dash-menu.php"
     <!--End-breadcrumbs-->
     <div  class="upload-game-div container" >
         <h1   style= "color: white font-weight: bold ;margin-right: 35px ; margin-bottom: 20px" >Upload Games </h1>
-        <input    class="input-game" type="text" id="game-name" name="game_name" placeholder="Game Name">
-        <br>
-        <textarea class="input-game" id=game-tags placeholder="Tags"></textarea>
-        <br>
-        <input class="input-game" type="text" id="classification"  placeholder="Classification">
-        <br>
-        <p style=" margin-left: 30px"> Upload image <input id="img-input"  type="file" name="myfile"></p>
-        <br>
-        <button   style=" background-color: darkorange" type="button" class=" buttons btn-primary">test</button>
-        <button id="upload-submit" type="submit" style="background:  green" class="buttons  btn-primary">Upload</button>
-        <button  type="submit" class="buttons  btn-primary">Reset</button>
+<!--        <form  action="UploadGamesPage.php" method="POST" enctype="multipart/form-data">-->
+            <input    class="input-game" type="text" id="gname" name="gname" placeholder="Game Name">
+            <br>
+            <textarea class="input-game" id=game-tags placeholder="Tags"></textarea>
+            <br>
+            <input class="input-game" type="text" id="classification"  placeholder="Classification">
+            <br>
+<form>
+    <p style=" margin-left: 30px"> Upload image <input id="image"  type="file" name="file"></p>
+
+</form>
+
+
+
+            <br>
+            <button   style=" background-color: darkorange" type="button" class=" buttons btn-primary">Test</button>
+            <button id="upload-submit" name="upload" type="submit" style="background:  green" class="buttons  btn-primary">Upload</button>
+            <button  type="submit" class="buttons  btn-primary">Reset</button>
+<!--        </form>-->
+
     </div>
 </div>
 
@@ -71,36 +108,88 @@ include"dash-menu.php"
 
 
     <script>
+        //------------------------ ADD NEW GAME ---------------------------//
               $(document).ready(function () {
-               alert("ks wghk");
-
                   $("#upload-submit").click(function () {
                       var game_name = $("#game-name").val();
                       var game_tags = $("#game-tags").val();
                       var classification = $("#classification").val();
                       $.ajax({
                           url: "operations/upload_game.php",
-                          data: {game_name:game_name, game_tags:game_tags, classification:classification},
+                          data: {game_name: game_name, game_tags: game_tags, classification: classification},
                           type: "POST",
                           success: function (data) {
-                              if(data === "done"){
+                              if (data === "done") {
                                   alert("game uploaded");
-                              }else {
+                              } else {
                                   alert("upload error");
                               }
 
                           }
                       });
                   })
+              });
 
+
+        //-------------------AutoComplete-----------------//
+        $("#gname").on("keyup",function () {
+            //$("#submitBtn").prop("disabled", false);
+          //  $("#submitBtn").css("cursor", "pointer");
+
+            var gameName = $("#gname").val();
+            if(gameName !== ""){
+                $.ajax({
+                    url: "operations/serch_game.php",
+                    data: {gameName:gameName},
+                    method:"POST",
+                    success: function (data) {
+                      if (data === "found" ){
+                          $("#gname").removeClass("inputValid");
+                          $("#gname").addClass("inputError");
+
+                      } else if (data === "not found") {
+                          $("#gname").removeClass("inputError");
+
+                          $("#gname").addClass("inputValid");
+                      }
+                    }
+                });
+                var gameName_check = $("#gname").val();
+                $.ajax({
+                    url: "operations/serch_game.php",
+                    data: {game_name:gameName_check},
+                    type: "POST",
+                    success: function (data) {
+                        if(data === 'game registered'){
+                            document.getElementById("gname").classList.remove('inputValid');
+                            document.getElementById("gname").classList.add('inputValid');
+                            document.getElementById("gnameErrorMessage").style.visibility = "hidden";
+                            backend_validation = "true";
+                        }else if(data === 'game unregistered'){
+                            document.getElementById("gname").classList.remove('inputValid');
+                            document.getElementById("gname").classList.add('inputError');
+                            document.getElementById("gnameErrorMessage").style.visibility = "visible";
+                            backend_validation = "false";
+                        }
+                    }
+                });
+            }
+        });
+
+    </script>
+<script>
                   //------------------ UPLOAD PROFILE IMAGE ------------------//
                   $(document).on('change', '#image', function () {
+
+
+
                       var imageProperty = document.getElementById("image").files[0];
                       var imageName = imageProperty.name;
                       var imageExtension = imageName.split('.').pop().toLowerCase();
                       var allowedExt = ['png', 'jpg', 'jpeg'];
                       var imageSize = imageProperty.size;
-                      if(jQuery.inArray(imageExtension, allowedExt) == -1){
+                      if(jQuery.inArray(imageExtension, allowedExt) === -1){
+
                           swal({
                               title: "صيغة الصورة ليست صحيحة",
                               icon: "error",
@@ -113,28 +202,28 @@ include"dash-menu.php"
                               button: "موافق"
                           });
                       }else {
+
                           var formData = new FormData();
                           formData.append("image", imageProperty);
                           $.ajax({
+
                               url: "operations/game_image_upload.php",
                               data: formData,
                               method: "POST",
                               contentType: false,
                               processData: false,
                               cache: false,
-                              success: function (data) {
-                                  $("#editImg").attr("src", data);
-                                  swal({
-                                      title: "تم تغيير الصورة بنجاح الرجاء حفظ التغييرات",
-                                      icon: "success",
-                                      button: "موافق"
-                                  });
+                              success:function() {
+                                 window.location.reload();
+
                               }
                           });
+
                       }
                   });
 
-              });
+
+
 
           </script>
 </body>
