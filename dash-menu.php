@@ -103,7 +103,7 @@
         <li class="active"><a href="index.php"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
         <li class="submenu"> <a href=""><i class="icon icon-th-list"></i> <span>Games</span> <span class="label label-important">3</span></a>
             <ul>
-                <li><a href="#">Games Request</a></li>
+                <li><a href="GamesRequest.php">Games Request</a></li>
                 <li><a href="UploadGamesPage.php">Upload Games</a></li>
                 <li><a href="form-wizard.html">Games Analysis </a></li>
             </ul>
