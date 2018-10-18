@@ -38,42 +38,44 @@ include"dash-menu.php"
 
                 <div class="widget-box">
                     <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-                        <h5>Data table</h5>
+                        <h5>Game Request Orders</h5>
                     </div>
                     <div class="widget-content nopadding">
                         <table class="table table-bordered data-table">
                             <thead>
-
                             <tr>
+                                <th>Request ID</th>
                                 <th>Game Name</th>
                                 <th>console</th>
                                 <th>UserName</th>
                                 <th>Email</th>
-
-
-
+                                <th>Action </th>
                             </tr>
                             <?php
                             $con = mysqli_connect('localhost', 'root', 'root', 'yogames');
 
-                            $query = "SELECT * FROM games";
+                            $query = "SELECT * FROM games_requests WHERE status = 'visible'";
                             $result = mysqli_query($con,$query);
-                            if (mysqli_num_rows($result)  == 0){
-                                echo  "<script> alert('yoyo'); </script>";
-                            }
 
                             while($row= mysqli_fetch_assoc($result)) {
+                                $req_id = $row['id'];
                                 $game_name = $row['game_name'];
-                                $id = $row['id'];
+                                $platform = $row['platform'];
+                                $email = $row['email'];
+                                $username = $row['username'];
                                 ?>
                                 <tr >
+                                    <td><?php echo $req_id;?></td>
                                     <td><?php echo $game_name;?></td>
-                                    <td><?php echo $game_name;?></td>
-                                    <td>Win 98+</td>
-                                    <td class="center">6</td>
+                                    <td><?php echo $platform;?></td>
+                                    <th><?php echo $username;?></th>
+                                    <td><?php echo $email;?></td>
+                                    <th>
+                                        <a href="UploadGamesPage.php?req_id=<?php echo $req_id?>"><button  style="margin-right: 5px" class="btn btn-primary btn-mini">Add Game</button></a>
+                                        <button style="margin-right: 5px" class="btn btn-primary btn-mini">Delete</button>
+                                    </th>
                                 </tr>
                             <?php } ?>
-
                             </thead>
                             <tbody>
                             </tbody>

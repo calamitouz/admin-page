@@ -54,39 +54,32 @@ include"dash-menu.php"
         <div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
     </div>
     <!--End-breadcrumbs-->
-    <div  class="upload-game-div container" >
-        <h1   style= "color: white font-weight: bold ;margin-right: 35px ; margin-bottom: 20px" >Upload Games </h1>
-<!--        <form  action="UploadGamesPage.php" method="POST" enctype="multipart/form-data">-->
-            <input    class="input-game" type="text" id="gname" name="gname" placeholder="Game Name">
-            <br>
-            <textarea class="input-game" id=game-tags placeholder="Tags"></textarea>
-            <br>
-            <input class="input-game" type="text" id="classification"  placeholder="Classification">
-            <br>
-<form>
-    <p style=" margin-left: 30px"> Upload image <input id="image"  type="file" name="file"></p>
+   <form>
+       <div  id="input" class="upload-game-div container" >
+           <h1   style= "color: white font-weight: bold ;margin-right: 35px ; margin-bottom: 20px" >Upload Games </h1>
+           <!--        <form  action="UploadGamesPage.php" method="POST" enctype="multipart/form-data">-->
+           <input    class="input-game" type="text" id="gname" name="gname" placeholder="Game Name">
+           <br>
+           <textarea class="input-game" id=game-tags placeholder="Tags"></textarea>
+           <br>
+           <input class="input-game" type="text" id="classification"  placeholder="Classification">
+           <br>
+           <form>
+               <p style=" margin-left: 30px"> Upload image <input id="image"  type="file" name="file"></p>
+           </form>
+           <br>
+           <button  id="test"  style=" background-color: darkorange" type="button" class=" buttons btn-primary">Test</button>
+           <button hidden id="upload-submit" name="upload" type="submit" style="background:  green" class="buttons  btn-primary">Upload</button>
+           <button  type="button" onclick="clearr()" class="buttons   btn-primary">Reset</button>
+           <!--</form>-->
 
-</form>
-
-
-
-            <br>
-            <button   style=" background-color: darkorange" type="button" class=" buttons btn-primary">Test</button>
-            <button id="upload-submit" name="upload" type="submit" style="background:  green" class="buttons  btn-primary">Upload</button>
-            <button  type="submit" class="buttons  btn-primary">Reset</button>
-<!--        </form>-->
-
-    </div>
+       </div>
+   </form>
     <div class="img-test ">
-
         <img src="img/demo/av1.jpg">
         <h1 >spider man</h1>
-
-
     </div>
-
     </div>
-
 </div>
 <div class="img-test">
 
@@ -119,8 +112,20 @@ include"dash-menu.php"
 
 
     <script>
-        //------------------------ ADD NEW GAME ---------------------------//
+
+        function  clearr() {
+            // document.getElementById("input").reset();
+            $("#gname").val("");
+            $("#game-tags").val("");
+            $("#classification").val("");
+            $("#image").val("");
+
+        }
+
               $(document).ready(function () {
+
+                  //------------------------ ADD NEW GAME ---------------------------//
+
                   $("#upload-submit").click(function () {
                       var game_name = $("#game-name").val();
                       var game_tags = $("#game-tags").val();
@@ -141,12 +146,30 @@ include"dash-menu.php"
                   })
               });
 
+        // ------------  ADD TO TEST TABLE ----------- //
+        $("#test").click(function () {
+            var game_name = $("#game-name").val();
+            var game_tags = $("#game-tags").val();
+            var classification = $("#classification").val();
+            var upload_type = "FOR TEST";
+            $.ajax({
+                url: "operations/upload_game_for_test.php",
+                data: {game_name: game_name, game_tags: game_tags, classification: classification, upload_type:upload_type},
+                type: "POST",
+                success: function (data) {
+                    if (data === "done") {
+                        alert("game uploaded");
+                    } else {
+                        alert("upload error");
+                    }
+
+                }
+            });
+        });
+
 
         //-------------------AutoComplete-----------------//
         $("#gname").on("keyup",function () {
-            //$("#submitBtn").prop("disabled", false);
-          //  $("#submitBtn").css("cursor", "pointer");
-
             var gameName = $("#gname").val();
             if(gameName !== ""){
                 $.ajax({
@@ -164,26 +187,6 @@ include"dash-menu.php"
                           $("#gname").addClass("inputValid");
                       }
                     }
-                });
-                var gameName_check = $("#gname").val();
-                $.ajax({
-                    url: "operations/serch_game.php",
-                    data: {game_name:gameName_check},
-                    type: "POST",
-                    success: function (data) {
-                        if(data === 'game registered'){
-                            document.getElementById("gname").classList.remove('inputValid');
-                            document.getElementById("gname").classList.add('inputValid');
-                            document.getElementById("gnameErrorMessage").style.visibility = "hidden";
-                            backend_validation = "true";
-                        }else if(data === 'game unregistered'){
-                            document.getElementById("gname").classList.remove('inputValid');
-                            document.getElementById("gname").classList.add('inputError');
-                            document.getElementById("gnameErrorMessage").style.visibility = "visible";
-                            backend_validation = "false";
-                        }
-                    }
-                });
             }
         });
 
