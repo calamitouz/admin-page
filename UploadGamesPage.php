@@ -60,7 +60,7 @@ include"dash-menu.php"
            <!--        <form  action="UploadGamesPage.php" method="POST" enctype="multipart/form-data">-->
            <input    class="input-game" type="text" id="gname" name="gname" placeholder="Game Name">
            <br>
-           <textarea class="input-game" id=game-tags placeholder="Tags"></textarea>
+           <textarea class="input-game" id=tags placeholder="Tags"></textarea>
            <br>
            <input class="input-game" type="text" id="classification"  placeholder="Classification">
            <br>
@@ -75,6 +75,12 @@ include"dash-menu.php"
 
        </div>
    </form>
+    <?php
+    include "../includes/db.php";
+    $query = "SELECT * FROM games_list_test";
+    $result = mysqli_query($con,$query);
+
+    ?>
     <div class="img-test ">
         <img src="img/demo/av1.jpg">
         <h1 >spider man</h1>
@@ -144,13 +150,13 @@ include"dash-menu.php"
                               }
                           });
                       }
-              });
+                });
 
                   //------------------------ ADD NEW GAME ---------------------------//
 
                   $("#upload-submit").click(function () {
-                      var game_name = $("#game-name").val();
-                      var game_tags = $("#game-tags").val();
+                      var game_name = $("#gname").val();
+                      var game_tags = $("#tags").val();
                       var classification = $("#classification").val();
                       $.ajax({
                           url: "operations/upload_game.php",
@@ -170,24 +176,33 @@ include"dash-menu.php"
 
                   //  ------------  ADD TO TEST TABLE ----------- //
                   $("#test").click(function () {
-                      var game_name = $("#game-name").val();
-                      var game_tags = $("#game-tags").val();
+                      var game_name = $("#gname").val();
+                      var game_tags = $("#tags").val();
                       var classification = $("#classification").val();
                       var upload_type = "FOR TEST";
-                      $.ajax({
-                          url: "operations/upload_game_for_test.php",
-                          data: {game_name: game_name, game_tags: game_tags, classification: classification, upload_type:upload_type},
-                          type: "POST",
-                          success: function (data) {
-                              if (data === "done") {
-                                  alert("game uploaded");
-                              } else {
-                                  alert("upload error");
-                              }
 
-                          }
-                      });
-                  });
+                          $.ajax({
+                              url: "operations/upload_game.php",
+                              data: {
+
+                                  game_name: game_name,
+                                  game_tags: game_tags,
+                                  classification: classification,
+                                  upload_type: upload_type
+
+                              },
+                              type: "POST",
+                              success: function (data) {
+                                  if (data === "done") {
+                                      alert("game uploaded");
+                                  } else if (data === "error") {
+                                      alert("upload error");
+                                  }
+
+                              }
+                          });
+
+
 
 
 
@@ -196,8 +211,6 @@ include"dash-menu.php"
 
 
                   //------------------ UPLOAD PROFILE IMAGE ------------------//
-                  $(document).on('change', '#image', function () {
-
 
 
                       var imageProperty = document.getElementById("image").files[0];
@@ -206,7 +219,6 @@ include"dash-menu.php"
                       var allowedExt = ['png', 'jpg', 'jpeg'];
                       var imageSize = imageProperty.size;
                       if(jQuery.inArray(imageExtension, allowedExt) === -1){
-
                           swal({
                               title: "صيغة الصورة ليست صحيحة",
                               icon: "error",
@@ -219,11 +231,9 @@ include"dash-menu.php"
                               button: "موافق"
                           });
                       }else {
-
                           var formData = new FormData();
                           formData.append("image", imageProperty);
                           $.ajax({
-
                               url: "operations/game_image_upload.php",
                               data: formData,
                               method: "POST",
@@ -232,17 +242,13 @@ include"dash-menu.php"
                               cache: false,
                               success:function() {
                                   window.location.reload();
-
                               }
                           });
-
                       }
                   });
-
-
-
-
               });
+
+
 
 
 
