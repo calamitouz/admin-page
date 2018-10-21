@@ -81,7 +81,7 @@ include"dash-menu.php"
     </div>
     </div>
 </div>
-<div class="img-test">
+
 
 
 
@@ -113,16 +113,38 @@ include"dash-menu.php"
 
     <script>
 
-        function  clearr() {
-            // document.getElementById("input").reset();
-            $("#gname").val("");
-            $("#game-tags").val("");
-            $("#classification").val("");
-            $("#image").val("");
+       function  clearr() {
+           // document.getElementById("input").reset();
+           $("#gname").val("");
+           $("#game-tags").val("");
+           $("#classification").val("");
+           $("#image").val("");
 
-        }
+       }
 
               $(document).ready(function () {
+
+                  //-------------------AutoComplete-----------------//
+                  $("#gname").keyup(function () {
+                      var gameName = $("#gname").val();
+                      if (gameName !== ""){
+                          $.ajax({
+                              url: "operations/serch_game.php",
+                              data: {gameName:gameName},
+                              method:"POST",
+                              success: function (data) {
+                                  if (data === "found" ){
+                                      $("#gname").removeClass("inputValid");
+                                      $("#gname").addClass("inputError");
+
+                                  } else if (data === "not found") {
+                                      $("#gname").removeClass("inputError");
+                                      $("#gname").addClass("inputValid");
+                                  }
+                              }
+                          });
+                      }
+              });
 
                   //------------------------ ADD NEW GAME ---------------------------//
 
@@ -143,55 +165,36 @@ include"dash-menu.php"
 
                           }
                       });
-                  })
-              });
-
-        // ------------  ADD TO TEST TABLE ----------- //
-        $("#test").click(function () {
-            var game_name = $("#game-name").val();
-            var game_tags = $("#game-tags").val();
-            var classification = $("#classification").val();
-            var upload_type = "FOR TEST";
-            $.ajax({
-                url: "operations/upload_game_for_test.php",
-                data: {game_name: game_name, game_tags: game_tags, classification: classification, upload_type:upload_type},
-                type: "POST",
-                success: function (data) {
-                    if (data === "done") {
-                        alert("game uploaded");
-                    } else {
-                        alert("upload error");
-                    }
-
-                }
-            });
-        });
+                  });
 
 
-        //-------------------AutoComplete-----------------//
-        $("#gname").on("keyup",function () {
-            var gameName = $("#gname").val();
-            if(gameName !== ""){
-                $.ajax({
-                    url: "operations/serch_game.php",
-                    data: {gameName:gameName},
-                    method:"POST",
-                    success: function (data) {
-                      if (data === "found" ){
-                          $("#gname").removeClass("inputValid");
-                          $("#gname").addClass("inputError");
+                  //  ------------  ADD TO TEST TABLE ----------- //
+                  $("#test").click(function () {
+                      var game_name = $("#game-name").val();
+                      var game_tags = $("#game-tags").val();
+                      var classification = $("#classification").val();
+                      var upload_type = "FOR TEST";
+                      $.ajax({
+                          url: "operations/upload_game_for_test.php",
+                          data: {game_name: game_name, game_tags: game_tags, classification: classification, upload_type:upload_type},
+                          type: "POST",
+                          success: function (data) {
+                              if (data === "done") {
+                                  alert("game uploaded");
+                              } else {
+                                  alert("upload error");
+                              }
 
-                      } else if (data === "not found") {
-                          $("#gname").removeClass("inputError");
+                          }
+                      });
+                  });
 
-                          $("#gname").addClass("inputValid");
-                      }
-                    }
-            }
-        });
 
-    </script>
-<script>
+
+
+
+
+
                   //------------------ UPLOAD PROFILE IMAGE ------------------//
                   $(document).on('change', '#image', function () {
 
@@ -228,13 +231,19 @@ include"dash-menu.php"
                               processData: false,
                               cache: false,
                               success:function() {
-                                 window.location.reload();
+                                  window.location.reload();
 
                               }
                           });
 
                       }
                   });
+
+
+
+
+              });
+
 
 
 
