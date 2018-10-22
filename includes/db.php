@@ -1,2 +1,2 @@
 <?php
-$con = mysqli_connect('localhost', 'root', '', 'yogames');
+$con = mysqli_connect('localhost', 'root', 'root', 'yogames');

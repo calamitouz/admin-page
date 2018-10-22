@@ -75,15 +75,13 @@ include"dash-menu.php"
 
        </div>
    </form>
-    <?php
-    include "../includes/db.php";
-    $query = "SELECT * FROM games_list_test";
-    $result = mysqli_query($con,$query);
 
+
+    }
     ?>
-    <div class="img-test ">
-        <img src="img/demo/av1.jpg">
-        <h1 >spider man</h1>
+
+    <div id="img" class="img-test ">
+
     </div>
     </div>
 </div>
@@ -193,13 +191,14 @@ include"dash-menu.php"
                               },
                               type: "POST",
                               success: function (data) {
-                                  if (data === "done") {
-                                      alert("game uploaded");
-                                  } else if (data === "error") {
-                                      alert("upload error");
+
+
+
+
+
                                   }
 
-                              }
+
                           });
 
 
@@ -240,11 +239,19 @@ include"dash-menu.php"
                               contentType: false,
                               processData: false,
                               cache: false,
-                              success:function() {
-                                  window.location.reload();
+                              success:function(data) {
+                                  $("#img").html(data);
                               }
                           });
                       }
+
+
+
+
+
+
+
+
                   });
               });
 

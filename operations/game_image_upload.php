@@ -20,9 +20,20 @@ if($_FILES['image']['name'] != '') {
 
 
         move_uploaded_file($_FILES['image']['tmp_name'], $location);
+    $query = "SELECT * FROM games_list_test WHERE id = (SELECT MAX(id)  FROM games_list_test)";
+    $result = mysqli_query($con,$query);
+    $row = mysqli_fetch_assoc($result);
+    $game_img = "imges_games/" . $row['game_image'];
 
-if($result){
-    echo "image done";
+
+    if($result){
+    echo ("
+      
+         <h1> ".$row['game_name']."</h1>
+         <img src='$game_img'>
+        
+           ");
+
 }else {
     echo "image error";
 }

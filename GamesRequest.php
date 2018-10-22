@@ -52,7 +52,7 @@ include"dash-menu.php"
                                 <th>Action </th>
                             </tr>
                             <?php
-                            $con = mysqli_connect('localhost', 'root', '', 'yogames');
+                            include "../includes/db.php";
 
                             $query = "SELECT * FROM games_list WHERE status = 'visible'";
                             $result = mysqli_query($con,$query);
