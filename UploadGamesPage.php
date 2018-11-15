@@ -14,36 +14,7 @@
  <link rel="stylesheet" href="css/UploadGamesPage.css"/>
 </head>
 <body>
-
 <?php
-//if (isset($_POST['upload'])) {
-//    $file = $_FILES['file'];
-//    $file_name = $_FILES['file']['name'];
-//    $file_tmapname = $_FILES['file']['tmp_name'];
-//    $file_size = $_FILES ['file']['size'];
-//    $file_error = $_FILES ['file']['error'];
-//    $file_type = $_FILES['file']['type'];
-//    $file_ext = explode('.',$file_name);
-//    $file_actext  = strtolower(end($file_ext));
-//    $allowed = array('jpg','png','jpeg');
-//
-//   if (in_array($file_actext,$allowed)){
-//        if ($file_error === 0){
-//            if ($file_size<300000){
-//                $file_newName = uniqid('',true).".".$file_actext;
-//                $file_location = 'imges_games/'.$file_newName;
-             //   move_uploaded_file($file_tmapname,$file_location);
-//                header("LOCATION:UploadGamesPage.php?uploadsuccess");
-//            }else{
-//                echo "image size is too pig ";
-//
-//            }
-//        }else "There was  an error in uploading your image ";
-//
-//    }else{
-//        echo "you can not upload image of this type";
-//    }
-//}
 include"dash-menu.php"
 ?>
 
@@ -53,7 +24,7 @@ include"dash-menu.php"
     <div id="content-header">
         <div id="breadcrumb"> <a href="index.php" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
     </div>
-    <!--End-breadcrumbs-->
+    <!--form of input -->
    <form>
        <div  id="input" class="upload-game-div container" >
            <h1   style= "color: white font-weight: bold ;margin-right: 35px ; margin-bottom: 20px" >Upload Games </h1>
@@ -69,18 +40,21 @@ include"dash-menu.php"
            </form>
            <br>
            <button  id="test"  style=" background-color: darkorange" type="button" class=" buttons btn-primary">Test</button>
-           <button hidden id="upload-submit" name="upload" type="submit" style="background:  green" class="buttons  btn-primary">Upload</button>
-           <button  type="button" onclick="clearr()" class="buttons   btn-primary">Reset</button>
+           <button  type="button" onclick="reset()" class="buttons   btn-primary">Reset</button>
+       </div>
            <!--</form>-->
 
-       </div>
+       <!-- card view-->
+           <div class="">
+
+
+
    </form>
+    <div id="img" class=" card-body img-test but-test cardImg card-img">
 
 
-    }
-    ?>
-
-    <div id="img" class="img-test ">
+        <b class="game-description" hidden><?php echo $row['description']?></b>
+    </div>
 
     </div>
     </div>
@@ -117,13 +91,13 @@ include"dash-menu.php"
 
     <script>
 
-       function  clearr() {
+       function  reset() {
            // document.getElementById("input").reset();
            $("#gname").val("");
            $("#game-tags").val("");
            $("#classification").val("");
            $("#image").val("");
-
+          
        }
 
               $(document).ready(function () {
@@ -140,10 +114,14 @@ include"dash-menu.php"
                                   if (data === "found" ){
                                       $("#gname").removeClass("inputValid");
                                       $("#gname").addClass("inputError");
-
+                                      $("#test").attr("disabled", true)
+                                          .css("cursor","not-allowed");
                                   } else if (data === "not found") {
                                       $("#gname").removeClass("inputError");
                                       $("#gname").addClass("inputValid");
+                                      $("#edit").css("visibility", "visible");
+                                      $("#test").attr("disabled",false)
+                                          .css("cursor","pointer");
                                   }
                               }
                           });
@@ -241,6 +219,8 @@ include"dash-menu.php"
                               cache: false,
                               success:function(data) {
                                   $("#img").html(data);
+                                  $("#test").attr("disabled", true)
+                                      .css("cursor","not-allowed");
                               }
                           });
                       }

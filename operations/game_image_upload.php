@@ -28,9 +28,18 @@ if($_FILES['image']['name'] != '') {
 
     if($result){
     echo ("
-      
-         <h1> ".$row['game_name']."</h1>
-         <img src='$game_img'>
+     
+         <h1></h1>
+         <img class='img' src='$game_img'>         
+        <h4 class=\"card-title text-center\" style=\"margin-top: 10px;\"> ".$row['game_name']."</h4>
+        <p  class=\"card-text text-center game-price\" style=\"color: #FF6D00\" dir=\"rtl\"> ريال</p>
+        <p class=\"card-text text-center game-days\" style=\"color: #FF6D00\" dir=\"rtl\">المدة:30 </p>
+        <p class=\"card-text text-center game-platform\" style=\"color: #FF6D00\" dir=\"rtl\">المنصة: PS4</i></p>
+        <p class=\"card-text text-center game-username\" style=\"color: #FF6D00\" dir=\"rtl\">نوع العرض:بيع </p>
+         <br>
+         <button  id=\"edit\"  style=\" background-color: darkorange\" type=\"button\" class=\" buttons btn-primary\">Edit</button>
+         <button  id=\"upload-submit\" name=\"upload\" type=\"submit\" style=\"background:  green\" class=\"buttons  btn-primary\">Upload</button>
+
         
            ");
 
@@ -39,5 +48,5 @@ if($_FILES['image']['name'] != '') {
 }
 
 }else{
-    echo "ks 3zy";
+
 }

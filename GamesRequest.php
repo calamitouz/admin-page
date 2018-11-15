@@ -23,10 +23,6 @@ include"dash-menu.php"
 ?>
 
 
-<div>
-    <p><?php echo $game_name?></p>
-</div>
-
 <!---->
 
 
@@ -46,25 +42,29 @@ include"dash-menu.php"
                             <tr>
                                 <th>Request ID</th>
                                 <th>Game Name</th>
-                                <th>console</th>
+                                <th>Console</th>
                                 <th>UserName</th>
                                 <th>Email</th>
                                 <th>Action </th>
+
                             </tr>
+
                             <?php
                             include "../includes/db.php";
 
-                            $query = "SELECT * FROM games_list WHERE status = 'visible'";
-                            $result = mysqli_query($con,$query);
 
+                            $query = "SELECT * FROM games_list ";
+                            $result = mysqli_query($con,$query);
                             while($row= mysqli_fetch_assoc($result)) {
+
                                 $req_id = $row['id'];
                                 $game_name = $row['game_name'];
                                 $platform = $row['platform'];
                                 $email = $row['email'];
                                 $username = $row['username'];
                                 ?>
-                                <tr >
+                                <tr>
+
                                     <td><?php echo $req_id;?></td>
                                     <td><?php echo $game_name;?></td>
                                     <td><?php echo $platform;?></td>
